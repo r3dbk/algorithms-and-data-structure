@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// Алгоритмыи структуры данных КР1.2 Задание 1
+// Алгоритмы и структуры данных КР1.2 Задание 1
 // Кузнецов Святослав Владимирович ИНБО-31-25
 
 int bin_search(const vector<int>& arr, int target) {
