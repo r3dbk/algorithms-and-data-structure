@@ -48,4 +48,4 @@ int main() {
 // Результат выполнения:
 
 // Root is 1.04476
-// Equation result is 4.82047e-09
+// Equation result is 4.82047e-09 = 4.82047*10^-9 = 0.00000000482047
