@@ -32,7 +32,7 @@ double method(double a, double b) {
         
     }
     return (a+b) / 2;
-    }
+}
 
 int main() {
     // задаем границы отрезка
