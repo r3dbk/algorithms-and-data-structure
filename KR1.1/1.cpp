@@ -46,5 +46,7 @@ int main() {
     cout << "Equation result is " << eq_res << endl;
 }
 
-// Результат выполнения: Root is 1.04474
-//                       Equation result is -0.000113664
+// Результат выполнения:
+
+// Root is 1.04474
+// Equation result is -0.000113664
