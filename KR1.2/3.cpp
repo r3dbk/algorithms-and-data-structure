@@ -5,7 +5,7 @@ using namespace std;
 // Алгоритмыи структуры данных КР1.2 Задание 3
 // Кузнецов Святослав Владимирович ИНБО-31-25
 
-int count_pos_neg(const vector<int>& arr) {
+void count_pos_neg(const vector<int>& arr) {
     // используем бинарный поиск для нахожления первого положительного числа
     int left = 0;
     int right = arr.size() - 1;
@@ -39,5 +39,4 @@ int main() {
     vector<int> arr = {-5, -3, -1, 0, 1, 2, 3, 4, 5};
     // вызываем функцию для подсчета положительных и отрицательных чисел
     count_pos_neg(arr);
-    return 0;
 }
