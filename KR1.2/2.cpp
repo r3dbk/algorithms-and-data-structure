@@ -37,15 +37,8 @@ int find_peak(const vector<int>& arr) {
 int main() {
     // инициализируем массив пиков
     vector<int> arr = {1, 3, 5, 4, 2};
-
-    // находим индекс пика и введённый массив
+    // находим индекс пика
     int peak_index = find_peak(arr);
-    cout << "Array: " << arr << endl;
-    cout << "Array Elements: ";
-    for (int i = 0; i < n; i++)
-        cout << array[i] << " ";
-    cout << endl;
-
     // выводим индекс пика
     if (peak_index != -1) {
         cout << "Is a mountain array, peak index is: " << peak_index << endl;
