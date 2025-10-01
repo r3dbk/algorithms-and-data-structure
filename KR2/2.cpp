@@ -18,11 +18,10 @@ int main() {
             }
         }
     }
-    // Факторизация с использованием решета
+    // ыакторизация с использованием решета
     vector<int> factors;
     int temp = number;
-
-    // Перебираем только простые делители из решета
+    // перебираем только простые делители из решета
     for (int i = 2; i <= x; i++) {
         if (prostoe[i] && temp % i == 0) {
             while (temp % i == 0) {
@@ -32,7 +31,7 @@ int main() {
         }
         if (temp == 1) break;
     }
-    // Выводим результат факторизации
+    // выводим
     cout << "prime factors of " << number << ": ";
     for (int factor : factors) {
         cout << factor << " ";
