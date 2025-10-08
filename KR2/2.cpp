@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+// Алгоритмы и структуры данных КР2 Задание 2
+// Кузнецов Святослав Владимирович ИНБО-31-25
 
 int main() {
     int number;

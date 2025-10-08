@@ -1,5 +1,7 @@
 #include <iostream>
 using namespace std;
+// Алгоритмы и структуры данных КР2 Задание 1
+// Кузнецов Святослав Владимирович ИНБО-31-25
 
 int main() {
     int x, y, result;
