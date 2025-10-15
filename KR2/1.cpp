@@ -4,22 +4,11 @@ using namespace std;
 // Алгоритмы и структуры данных КР2 Задание 1
 // Кузнецов Святослав Владимирович ИНБО-31-25
 
-int gcdByDivision(int a, int b) {
+int gcdByDiv(int a, int b) {
     while (b != 0) {
         int temp = b;
         b = a % b;
-        a = temp;
-    }
-    return a;
-}
-
-int gcdBySubtraction(int a, int b) {
-    while (a != b) {
-        if (a > b) {
-            a = a - b;
-        } else {
-            b = b - a;
-        }
+        a = abs(temp);
     }
     return a;
 }
@@ -27,32 +16,40 @@ int gcdBySubtraction(int a, int b) {
 int main() {
     vector<int> numbers;
     int num;
-    cout << "Enter numbers:" << endl;
-    // Читаем числа в цикле
+    cout << "Enter 3 numbers:" << endl;
     for (int i = 0; i < 4; i++) {
-        cin >> num;
+        if (!(cin >> num)) {
+            if (cin.eof()) break;
+            cout << "Enter positive integer only" << endl;
+            return 1;
+        }
         numbers.push_back(num);
+        // проверка на лишние числа
         if (numbers.size() == 3) {
-            if (cin.peek() == '\n') {
-                break;
+            if (cin.peek() != '\n' && cin.peek() != EOF) {
+                cout << "Enter exactly 3 numbers" << endl;
+                return 1;
             }
+            break;
         }
     }
-    // автоматически определяем метод на основе количества чисел
-    if (numbers.size() == 3) {
-        // Метод деления для трех чисел
-        int gcd = numbers[0];
-        for (int i = 1; i < 3; i++) {
-            gcd = gcdByDivision(gcd, numbers[i]);
-        }
-        cout << "GCD division method: " << gcd << endl;
-    } else {
-        // Метод вычитания для четырех чисел
-        int gcd = numbers[0];
-        for (int i = 1; i < 4; i++) {
-            gcd = gcdBySubtraction(gcd, numbers[i]);
-        }
-        cout << "GCD subtraction method: " << gcd << endl;
+    // проверка на все нули
+    int sum = 0;
+    for (int i = 0; i < numbers.size(); i++) {
+        sum += numbers[i];
     }
+
+    if (sum == 0) {
+        cout << "GCD is: n >= 1" << endl;
+        return 0;
+    }
+    // вычисляем
+    int gcd = numbers[0];
+    for (int i = 1; i < 3; i++) {
+        gcd = gcdByDiv(gcd, numbers[i]);
+    }
+    // вывод
+    cout << "GCD division method: " << gcd << endl;
+
     return 0;
 }
