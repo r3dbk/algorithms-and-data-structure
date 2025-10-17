@@ -8,12 +8,11 @@ int main() {
     int number;
     cout << "enter a number to factorize: ";
     cin >> number;
-    // проверка на единицу/ноль/отриц. число
     if (number <= 1) {
         cout << "unable to factorize, enter a positive n > 1" << endl;
         return 0;
     }
-    // само решето
+    // решето эратосфена для проверки простоты
     vector<bool> is_prime(number + 1, true);
     is_prime[0] = is_prime[1] = false;
     for (int i = 2; i * i <= number; i++) {
@@ -23,19 +22,24 @@ int main() {
             }
         }
     }
-    // факторизация
+    // проверка на простоту через решето
+    if (is_prime[number]) {
+        cout << number << " is prime number" << endl;
+        return 0;
+    }
+    // факторизация методом простого перебора с кратностью
     cout << "prime factors of " << number << ": ";
     int temp = number;
     bool first = true;
-    for (int i = 2; i <= number; i++) {
-        if (is_prime[i] && temp % i == 0) {
+    for (int i = 2; i <= temp; i++) {
+        if (temp % i == 0) {
             int count = 0;
-            // считаем кр-ть множителя
+            // считаем кратность множителя
             while (temp % i == 0) {
                 count++;
                 temp /= i;
             }
-            // вывод с кратн-ю
+            // вывод с кратностью
             if (!first) cout << " ";
             if (count == 1) {
                 cout << i;
