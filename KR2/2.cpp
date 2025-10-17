@@ -8,37 +8,43 @@ int main() {
     int number;
     cout << "enter a number to factorize: ";
     cin >> number;
-    // решето Эратосфена
-    int x = number;
-    vector<bool> prostoe(x + 1, true);
-    prostoe[0] = prostoe[1] = false;
-    // отмечаем составные числа
-    for (int i = 2; i * i <= x; i++) {
-        if (prostoe[i]) {
-            for (int j = i * i; j <= x; j += i) {
-                prostoe[j] = false;
+    // проверка на единицу/ноль/отриц. число
+    if (number <= 1) {
+        cout << "unable to factorize, enter a positive n > 1" << endl;
+        return 0;
+    }
+    // само решето
+    vector<bool> is_prime(number + 1, true);
+    is_prime[0] = is_prime[1] = false;
+    for (int i = 2; i * i <= number; i++) {
+        if (is_prime[i]) {
+            for (int j = i * i; j <= number; j += i) {
+                is_prime[j] = false;
             }
         }
     }
-    // ыакторизация с использованием решета
-    vector<int> factors;
+    // факторизация
+    cout << "prime factors of " << number << ": ";
     int temp = number;
-    // перебираем только простые делители из решета
-    for (int i = 2; i <= x; i++) {
-        if (prostoe[i] && temp % i == 0) {
+    bool first = true;
+    for (int i = 2; i <= number; i++) {
+        if (is_prime[i] && temp % i == 0) {
+            int count = 0;
+            // считаем кр-ть множителя
             while (temp % i == 0) {
-                factors.push_back(i);
+                count++;
                 temp /= i;
             }
+            // вывод с кратн-ю
+            if (!first) cout << " ";
+            if (count == 1) {
+                cout << i;
+            } else {
+                cout << i << "^" << count;
+            }
+            first = false;
         }
-        if (temp == 1) break;
-    }
-    // выводим
-    cout << "prime factors of " << number << ": ";
-    for (int factor : factors) {
-        cout << factor << " ";
     }
     cout << endl;
-
     return 0;
 }
