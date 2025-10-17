@@ -24,7 +24,7 @@ int main() {
     }
     // проверка на простоту через решето
     if (is_prime[number]) {
-        cout << number << " is prime number" << endl;
+        cout << "n must be composite" << endl;
         return 0;
     }
     // факторизация методом простого перебора с кратностью
