@@ -1,96 +1,108 @@
 #include <iostream>
-#include <string>
-#include <algorithm>
-
+#include <vector>
 using namespace std;
 
-// выравнивание длтны чисел с пом. добавления ведущих нулей
-string alignLength(const string& num, int length) {
-    if (num.length() >= length) return num;
-    return string(length - num.length(), '0') + num;
-}
-
-// вычисление промежуточной суммы
-string calculateIntermediateSum(const string& num1, const string& num2) {
-    string result = "";
-    int length = max(num1.length(), num2.length());
-    string alignedNum1 = alignLength(num1, length);
-    string alignedNum2 = alignLength(num2, length);
-    for (int i = 0; i < length; i++) {
-        int bit1 = alignedNum1[i] - '0';
-        int bit2 = alignedNum2[i] - '0';
-        result += (bit1 == bit2) ? '0' : '1';
+vector<int> addBinary(vector<int> a, vector<int> b) {
+    vector<int> sum(a.size(), 0);
+    for (int i = a.size() - 1; i >= 0; i--) {
+        int bitSum = a[i] + b[i];
+        sum[i] = bitSum % 2;
     }
-    return result;
+    return sum;
 }
 
-// вычисление числа переносов
-string calculateCarry(const string& num1, const string& num2) {
-    string result = "0";
-    int length = max(num1.length(), num2.length());
-    string alignedNum1 = alignLength(num1, length);
-    string alignedNum2 = alignLength(num2, length);
-    for (int i = 0; i < length - 1; i++) {
-        int bit1 = alignedNum1[i] - '0';
-        int bit2 = alignedNum2[i] - '0';
-        if (bit1 == 1 && bit2 == 1) {
-            result += '1';
-        } else {
-            result += '0';
+vector<int> generateCarry(vector<int> a, vector<int> b) {
+    vector<int> carry(a.size(), 0);
+    for (int i = a.size() - 1; i > 0; i--) {
+        if (a[i] + b[i] >= 2) {
+            carry[i-1] = 1;
         }
     }
+    return carry;
+}
+
+vector<int> normalAddition(vector<int> a, vector<int> b) {
+    vector<int> result(a.size(), 0);
+    int c = 0;
+    for (int i = a.size() - 1; i >= 0; i--) {
+        int total = a[i] + b[i] + c;
+        result[i] = total % 2;
+        c = total / 2;
+    }
     return result;
 }
 
-// функция удаления ведущих нулей
-string removeLeadingZeros(const string& num) {
-    size_t pos = num.find_first_not_of('0');
-    if (pos == string::npos) return "0";
-    return num.substr(pos);
-}
-
-// основная функция ускоренного сложения
-string acceleratedAddition(const string& num1, const string& num2) {
-    string a = removeLeadingZeros(num1);
-    string b = removeLeadingZeros(num2);
-    int step = 0;
-    cout << "step " << step++ << ": a=" << a << " b=" << b << endl;
-    while (b != "0") {
-        string sum = calculateIntermediateSum(a, b);
-        string carry = calculateCarry(a, b);
-        a = removeLeadingZeros(sum);
-        b = removeLeadingZeros(carry);
-        cout << "step " << step++ << ": sum=" << sum << " carry=" << carry << endl;
-        if (step > 100) break;
+void printVector(vector<int> vec, string label) {
+    cout << label << ": ";
+    for (int bit : vec) {
+        cout << bit << " ";
     }
-    return a;
-}
-
-// функция проверки валионости двоичного числа
-bool isValidBinary(const string& num) {
-    if (num.empty()) return false;
-    for (char c : num) {
-        if (c != '0' && c != '1') return false;
-    }
-    return true;
+    cout << endl;
 }
 
 int main() {
-    string num1, num2;
+    vector<int> num1 = {0,1,0,0,0,1,1,1,0,0};
+    vector<int> num2 = {0,1,0,1,1,1,0,1,1,1};
+
+    printVector(num1, "number 1");
+    printVector(num2, "number 2");
+    cout << endl;
+
+    int step = 1;
+    vector<int> sum = addBinary(num1, num2);
+    vector<int> carry = generateCarry(num1, num2);
+
+    printVector(sum, "step 1 sum");
+    printVector(carry, "step 1 carry");
+
     while (true) {
-        cout << "enter first binary: ";
-        cin >> num1;
-        if (isValidBinary(num1)) break;
-        cout << "use 0/1 only." << endl;
+        bool allZero = true;
+        for (int bit : carry) {
+            if (bit != 0) {
+                allZero = false;
+                break;
+            }
+        }
+        if (allZero) break;
+
+        step++;
+        vector<int> newSum = addBinary(sum, carry);
+        vector<int> newCarry = generateCarry(sum, carry);
+
+        cout << endl;
+        printVector(newSum, "step " + to_string(step) + " sum");
+        printVector(newCarry, "step " + to_string(step) + " carry");
+
+        sum = newSum;
+        carry = newCarry;
     }
-    while (true) {
-        cout << "enter second binary: ";
-        cin >> num2;
-        if (isValidBinary(num2)) break;
-        cout << "use 0/1 only." << endl;
+
+    cout << endl << "accelerated result: ";
+    for (int bit : sum) {
+        cout << bit << " ";
     }
-    string result = acceleratedAddition(num1, num2);
-    cout << "result: " << result << endl;
+    cout << endl;
+
+    vector<int> normalResult = normalAddition(num1, num2);
+    cout << "normal addition result: ";
+    for (int bit : normalResult) {
+        cout << bit << " ";
+    }
+    cout << endl;
+
+    bool resultsMatch = true;
+    for (int i = 0; i < sum.size(); i++) {
+        if (sum[i] != normalResult[i]) {
+            resultsMatch = false;
+            break;
+        }
+    }
+
+    if (resultsMatch) {
+        cout << "results match - correct" << endl;
+    } else {
+        cout << "results don't match - error" << endl;
+    }
 
     return 0;
 }
