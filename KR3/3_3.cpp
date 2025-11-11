@@ -5,7 +5,6 @@ using namespace std;
 
 vector<int> getBinaryNumber() {
     string input;
-    cout << "enter binary number: ";
     cin >> input;
 
     vector<int> num(input.length());
@@ -109,27 +108,5 @@ int main() {
         cout << bit << " ";
     }
     cout << endl;
-
-    vector<int> normalResult = normalAddition(num1, num2);
-    cout << "normal addition result: ";
-    for (int bit : normalResult) {
-        cout << bit << " ";
-    }
-    cout << endl;
-
-    bool resultsMatch = true;
-    for (int i = 0; i < sum.size(); i++) {
-        if (sum[i] != normalResult[i]) {
-            resultsMatch = false;
-            break;
-        }
-    }
-
-    if (resultsMatch) {
-        cout << "results match - correct" << endl;
-    } else {
-        cout << "results don't match - error" << endl;
-    }
-
     return 0;
 }
